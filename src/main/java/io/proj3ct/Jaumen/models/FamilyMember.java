@@ -1,13 +1,15 @@
 package io.proj3ct.Jaumen.models;
 
-import lombok.Data;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 
-@Data
-@Entity(name = "Categories")
-public class Category {
+@Entity(name = "FamilyMember")
+
+public class FamilyMember {
+
     @Id
     private Long id;
-    private String category;
+    private Role idFamily;
+    private Long idUser;
+
 }
