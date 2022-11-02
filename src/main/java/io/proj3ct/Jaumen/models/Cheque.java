@@ -1,13 +1,12 @@
 package io.proj3ct.Jaumen.models;
 
 import javax.persistence.*;
-import javax.xml.crypto.Data;
 import java.util.Date;
 
 @Entity(name = "Cheques")
 public class Cheque {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue
     private Long id;
     private Long cost;
     private Date date;

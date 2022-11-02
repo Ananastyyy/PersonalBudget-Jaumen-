@@ -10,8 +10,8 @@ public class Family {
     private String password;
 
     @OneToOne(mappedBy = "family")
-    private  User eser;
-    @OneToMany(mappedBy = "family")
+    private User user;
+    @OneToMany(mappedBy = "family", cascade = CascadeType.ALL)
     private List<FamilyMember> familyMemberList;
 
     public String getLogin() {
@@ -34,12 +34,12 @@ public class Family {
         return familyMemberList;
     }
 
-    public User getEser() {
-        return eser;
+    public User getUser() {
+        return user;
     }
 
-    public void setEser(User eser) {
-        this.eser = eser;
+    public void setUser(User user) {
+        this.user = user;
     }
 
     public void setFamilyMemberList(List<FamilyMember> familyMemberList) {

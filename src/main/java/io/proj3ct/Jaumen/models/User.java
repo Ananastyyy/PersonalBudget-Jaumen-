@@ -1,14 +1,11 @@
 package io.proj3ct.Jaumen.models;
 
-import lombok.Data;
-
 import javax.persistence.*;
-import java.util.List;
 
 @Entity(name = "Users")
 public class User {
     @Id
-    private Long userId;
+    private Long id;
     private String firstName;
     private String secondName;
     @OneToOne(cascade = CascadeType.ALL)
@@ -47,11 +44,11 @@ public class User {
         this.botStatus = botStatus;
     }
 
-    public Long getUserId() {
-        return userId;
+    public Long getId() {
+        return id;
     }
 
-    public void setUserId(Long userId) {
-        this.userId = userId;
+    public void setId(Long id) {
+        this.id = id;
     }
 }
