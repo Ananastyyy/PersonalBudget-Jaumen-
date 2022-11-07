@@ -1,20 +1,20 @@
 package io.proj3ct.Jaumen.bot;
 
 public class BotReply {
-    private String userId;
-    private String chatId;
+    private Long userId;
+    private Long chatId;
     private String text = "";
 
-    public BotReply(String userId, String chatId) {
+    public BotReply(Long userId, Long chatId) {
         this.userId = userId;
         this.chatId = chatId;
     }
 
-    public String getUserId() {
+    public Long getUserId() {
         return userId;
     }
 
-    public String getChatId() {
+    public Long getChatId() {
         return chatId;
     }
 

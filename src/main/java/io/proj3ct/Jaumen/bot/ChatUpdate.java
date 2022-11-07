@@ -2,35 +2,27 @@ package io.proj3ct.Jaumen.bot;
 
 public class ChatUpdate {
     private Long userId;
-    private String firstName;
-    private String secondName;
+    private Long chatId;
     private String text;
-    public ChatUpdate(Long userId) {
+
+    public ChatUpdate(Long userId, Long chatId) {
         this.userId = userId;
+        this.chatId = chatId;
     }
+
     public Long getUserId() {
         return userId;
     }
+
+    public Long getChatId() {
+        return chatId;
+    }
+
     public String getText() {
         return text;
     }
+
     public void setText(String text) {
         this.text = text;
-    }
-
-    public String getFirstName() {
-        return firstName;
-    }
-
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
-
-    public String getSecondName() {
-        return secondName;
-    }
-
-    public void setSecondName(String secondName) {
-        this.secondName = secondName;
     }
 }
