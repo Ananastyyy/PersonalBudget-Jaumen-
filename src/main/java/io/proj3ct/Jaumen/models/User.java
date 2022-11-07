@@ -1,5 +1,7 @@
 package io.proj3ct.Jaumen.models;
 
+import io.proj3ct.Jaumen.bot.functions.Status;
+
 import javax.persistence.*;
 
 @Entity(name = "Users")
@@ -11,7 +13,24 @@ public class User {
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "login")
     private  Family family;
-    private BotStatus botStatus;
+    private Status botStatus;
+
+    public Family getFamily() {
+        return family;
+    }
+
+    public void setFamily(Family family) {
+        this.family = family;
+    }
+
+    public Status getBotStatus() {
+        return botStatus;
+    }
+
+    public void setBotStatus(Status botStatus) {
+        this.botStatus = botStatus;
+    }
+
     public String getFirstName() {
         return firstName;
     }
@@ -34,14 +53,6 @@ public class User {
 
     public void setFamilyId(Family family) {
         this.family = family;
-    }
-
-    public BotStatus getBotStatus() {
-        return botStatus;
-    }
-
-    public void setBotStatus(BotStatus botStatus) {
-        this.botStatus = botStatus;
     }
 
     public Long getId() {
