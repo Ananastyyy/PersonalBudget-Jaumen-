@@ -1,21 +1,19 @@
 package io.proj3ct.Jaumen.models;
 
-import lombok.Data;
-
 import javax.persistence.*;
 import java.util.List;
 
 @Entity(name = "Categories")
 public class Category {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue
     private Long id;
     private String nameCategory;
     @ManyToOne
     @JoinColumn(name = "family_member_id")
     private FamilyMember familyMember;
 
-    @OneToMany(mappedBy = "category")
+    @OneToMany(mappedBy = "category", cascade = CascadeType.ALL)
     private List<Cheque> chequeList;
 
     public Long getId() {
