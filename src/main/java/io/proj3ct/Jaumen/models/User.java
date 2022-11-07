@@ -1,31 +1,26 @@
 package io.proj3ct.Jaumen.models;
 
-import io.proj3ct.Jaumen.bot.functions.Status;
-
 import javax.persistence.*;
+import java.util.List;
 
-@Entity(name = "Users")
+@Entity(name = "FamilyMembers")
 public class User {
     @Id
-    private Long id;
     private String login;
-    private Status status;
+    private String password;
 
-    public Status getStatus() {
-        return status;
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private List<Category> categoryList;
+
+
+    public List<Category> getCategoryList() {
+        return categoryList;
     }
 
-    public void setStatus(Status status) {
-        this.status = status;
+    public void setCategoryList(List<Category> categoryList) {
+        this.categoryList = categoryList;
     }
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
     public String getLogin() {
         return login;
     }
@@ -34,4 +29,11 @@ public class User {
         this.login = login;
     }
 
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
 }

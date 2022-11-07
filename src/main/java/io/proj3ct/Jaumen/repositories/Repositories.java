@@ -1,19 +1,18 @@
 package io.proj3ct.Jaumen.repositories;
 
-import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
 public class Repositories {
     @Autowired
-    private UserRepository userRepository;
+    private ChatHistoryRepository chatHistoryRepository;
 
     @Autowired
     private FamilyRepository familyRepository;
 
     @Autowired
-    private FamilyMemberRepository familyMemberRepository;
+    private UserRepository userRepository;
 
     @Autowired
     private CategoryRepository categoryRepository;
@@ -21,16 +20,16 @@ public class Repositories {
     @Autowired
     private ChequeRepository chequeRepository;
 
-    public UserRepository getUserRepository() {
-        return userRepository;
+    public ChatHistoryRepository getUserRepository() {
+        return chatHistoryRepository;
     }
 
     public FamilyRepository getFamilyRepository() {
         return familyRepository;
     }
 
-    public FamilyMemberRepository getFamilyMemberRepository() {
-        return familyMemberRepository;
+    public UserRepository getFamilyMemberRepository() {
+        return userRepository;
     }
 
     public CategoryRepository getCategoryRepository() {
