@@ -2,6 +2,7 @@ package io.proj3ct.Jaumen.bot.functions;
 
 import io.proj3ct.Jaumen.bot.ChatUpdate;
 import io.proj3ct.Jaumen.models.Family;
+import io.proj3ct.Jaumen.models.FamilyMember;
 import io.proj3ct.Jaumen.models.User;
 import io.proj3ct.Jaumen.repositories.FamilyRepository;
 import io.proj3ct.Jaumen.repositories.Repositories;
@@ -49,5 +50,8 @@ public class LogIn implements Function {
             }
         }
         return reply;
+    }
+    private void createFamilyMember(Family family) {
+        FamilyMember familyMember = new FamilyMember();
     }
 }
