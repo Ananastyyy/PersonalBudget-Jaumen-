@@ -10,8 +10,8 @@ public class Category {
     private Long id;
     private String nameCategory;
     @ManyToOne
-    @JoinColumn(name = "family_member_id")
-    private FamilyMember familyMember;
+    @JoinColumn(name = "user_login")
+    private User user;
 
     @OneToMany(mappedBy = "category", cascade = CascadeType.ALL)
     private List<Cheque> chequeList;
@@ -32,12 +32,12 @@ public class Category {
         this.nameCategory = nameCategory;
     }
 
-    public FamilyMember getFamilyMember() {
-        return familyMember;
+    public User getUser() {
+        return user;
     }
 
-    public void setFamilyMember(FamilyMember familyMember) {
-        this.familyMember = familyMember;
+    public void setUser(User user) {
+        this.user = user;
     }
 
     public List<Cheque> getChequeList() {

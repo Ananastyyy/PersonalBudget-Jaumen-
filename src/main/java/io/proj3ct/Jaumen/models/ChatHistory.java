@@ -2,14 +2,22 @@ package io.proj3ct.Jaumen.models;
 
 import io.proj3ct.Jaumen.bot.functions.Status;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.persistence.*;
 
-@Entity(name = "chat_history")
+@Entity(name = "Users")
 public class ChatHistory {
     @Id
     private Long id;
-    private Status botStatus;
+    private String login;
+    private Status status;
+
+    public Status getStatus() {
+        return status;
+    }
+
+    public void setStatus(Status status) {
+        this.status = status;
+    }
 
     public Long getId() {
         return id;
@@ -18,12 +26,12 @@ public class ChatHistory {
     public void setId(Long id) {
         this.id = id;
     }
-
-    public Status getBotStatus() {
-        return botStatus;
+    public String getLogin() {
+        return login;
     }
 
-    public void setBotStatus(Status botStatus) {
-        this.botStatus = botStatus;
+    public void setLogin(String login) {
+        this.login = login;
     }
+
 }
