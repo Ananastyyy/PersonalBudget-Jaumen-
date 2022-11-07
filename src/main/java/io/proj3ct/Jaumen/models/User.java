@@ -8,35 +8,15 @@ import javax.persistence.*;
 public class User {
     @Id
     private Long id;
-    private String firstName;
-    private String secondName;
-
-
     private String login;
-    private Status botStatus;
+    private Status status;
 
-    public Status getBotStatus() {
-        return botStatus;
+    public Status getStatus() {
+        return status;
     }
 
-    public void setBotStatus(Status botStatus) {
-        this.botStatus = botStatus;
-    }
-
-    public String getFirstName() {
-        return firstName;
-    }
-
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
-
-    public String getSecondName() {
-        return secondName;
-    }
-
-    public void setSecondName(String secondName) {
-        this.secondName = secondName;
+    public void setStatus(Status status) {
+        this.status = status;
     }
 
     public Long getId() {

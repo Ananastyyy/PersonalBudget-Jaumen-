@@ -21,8 +21,11 @@ public class LogIn implements Function {
         FunctionReply reply = new FunctionReply();
         if (text == null){
             reply.setText("Введите логин");
-        }
-        else if (user.getLogin().isEmpty()){
+        } else if (text.equals("/new_family")) {
+            user.setStatus(Status.CREATE_FAMILY);
+            user.setLogin(null);
+            return null;
+        } else if (user.getLogin() == null){
             Optional<Family> family = repository.findById(text);
             if (family.isEmpty()) {
                 reply.setText("Логин неверный, попробуйте снова");
@@ -41,7 +44,7 @@ public class LogIn implements Function {
                 reply.setText("Пароль неверный, попробуйте снова");
             }
             else{
-                user.setBotStatus(Status.WAITING_COMMAND);
+                user.setStatus(Status.WAITING_COMMAND);
                 return null;
             }
         }

@@ -8,8 +8,8 @@ public class Sleep implements Function {
     @Override
     public FunctionReply doFunction(User user, String text) {
         FunctionReply reply = new FunctionReply();
-        if (text.equals("/start")) {
-            user.setBotStatus(Status.LOG_IN);
+        if (text != null && text.equals("/start")) {
+            user.setStatus(Status.LOG_IN);
             return null;
         }
         reply.setText("(-, – )…zzzZZZ");
