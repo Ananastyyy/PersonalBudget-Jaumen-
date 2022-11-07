@@ -18,19 +18,33 @@ public class LogIn implements Function {
 
     @Override
     public FunctionReply doFunction(User user, String text) {
-////        Optional<Family> family = repository.findById(text);
-////        family.isEmpty();
-////        Family f = family.get();
-////        user.setFamily(f);
-//
-//        FunctionReply reply = new FunctionReply();
-//        if (text == null){
-//            reply.setText("Введите логин");
-//        }
-//        else {
-//
-//        }
-//    }
-        return null;
+        FunctionReply reply = new FunctionReply();
+        if (text == null){
+            reply.setText("Введите логин");
+        }
+        else if (user.getLogin().isEmpty()){
+            Optional<Family> family = repository.findById(text);
+            if (family.isEmpty()) {
+                reply.setText("Логин неверный, попробуйте снова");
+            } else{
+                user.setLogin(text);
+                reply.setText("Введите пароль");
+            }
+        }
+        else{
+            Family family = repository.findById(user.getLogin()).get();
+            if(text.equals("/back")) {
+                user.setLogin(null);
+                reply.setText("Введите логин");
+            }
+            if (!text.equals(family.getPassword())){
+                reply.setText("Пароль неверный, попробуйте снова");
+            }
+            else{
+                user.setBotStatus(Status.WAITING_COMMAND);
+                return null;
+            }
+        }
+        return reply;
     }
 }
