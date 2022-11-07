@@ -10,18 +10,10 @@ public class User {
     private Long id;
     private String firstName;
     private String secondName;
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "login")
-    private  Family family;
+
+
+    private String login;
     private Status botStatus;
-
-    public Family getFamily() {
-        return family;
-    }
-
-    public void setFamily(Family family) {
-        this.family = family;
-    }
 
     public Status getBotStatus() {
         return botStatus;
@@ -47,14 +39,6 @@ public class User {
         this.secondName = secondName;
     }
 
-    public Family getFamilyId() {
-        return family;
-    }
-
-    public void setFamilyId(Family family) {
-        this.family = family;
-    }
-
     public Long getId() {
         return id;
     }
@@ -62,4 +46,12 @@ public class User {
     public void setId(Long id) {
         this.id = id;
     }
+    public String getLogin() {
+        return login;
+    }
+
+    public void setLogin(String login) {
+        this.login = login;
+    }
+
 }

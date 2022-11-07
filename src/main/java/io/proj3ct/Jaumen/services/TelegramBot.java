@@ -27,19 +27,17 @@ public class TelegramBot extends TelegramLongPollingBot {
         return botConfig.getBotName();
     }
 
+
     @Override
     public void onUpdateReceived(Update update) {
         if (update.hasMessage()) {
             Message mess = update.getMessage();
             String text = mess.getText();
             String chatId = mess.getChatId().toString();
-            switch (text) {
-                case "/start":
-                    sendMessage(chatId, "Hi, " + mess.getFrom().getFirstName() + "!");
-                    break;
-                default:
-                    sendMessage(chatId, "Unknown command :(");
-
+            try {
+                System.out.println("hi");
+            } catch (Exception e) {
+                throw new RuntimeException(e);
             }
         }
     }
