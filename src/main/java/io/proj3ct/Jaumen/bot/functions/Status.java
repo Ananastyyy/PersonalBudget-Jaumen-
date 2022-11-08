@@ -1,9 +1,9 @@
 package io.proj3ct.Jaumen.bot.functions;
 
 public enum Status {
-    SLEEPING,
+    SLEEP,
     LOG_IN,
-    WAITING_COMMAND,
-    CREATE_FAMILY,
+    WAIT_COMMAND,
+    CREATE_USER,
     CREATE_CATEGORY
 }

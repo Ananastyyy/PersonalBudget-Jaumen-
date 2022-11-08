@@ -24,7 +24,7 @@ public class BotService implements Bot {
     private ChatHistory createUser(Long userid) {
         ChatHistory user = new ChatHistory();
         user.setId(userid);
-        user.setStatus(Status.SLEEPING);
+        user.setStatus(Status.SLEEP);
         return user;
     }
     private ChatHistory getUser(Long userId) {

@@ -4,10 +4,13 @@ import io.proj3ct.Jaumen.models.ChatHistory;
 
 public class WaitingCommand implements Function{
     @Override
-    public FunctionReply doFunction(ChatHistory user, String text) {
+    public FunctionReply doFunction(ChatHistory history, String text) {
         if (text != null && text.equals("/sleep")) {
-            user.setStatus(Status.SLEEPING);
-            user.setLogin(null);
+            history.setStatus(Status.SLEEP);
+            history.setLogin(null);
+            return null;
+        } else if (text != null && text.equals("/create_category")) {
+            history.setStatus(Status.CREATE_CATEGORY);
             return null;
         }
         FunctionReply reply = new FunctionReply();

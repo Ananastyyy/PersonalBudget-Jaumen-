@@ -9,7 +9,7 @@ public class Category {
     @GeneratedValue
     private Long id;
     private String nameCategory;
-    @ManyToOne
+    @ManyToOne()
     @JoinColumn(name = "user_login")
     private User user;
 
