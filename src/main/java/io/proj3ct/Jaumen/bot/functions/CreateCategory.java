@@ -7,6 +7,7 @@ import io.proj3ct.Jaumen.repositories.CategoryRepository;
 import io.proj3ct.Jaumen.repositories.UserRepository;
 
 import java.util.List;
+import java.util.Optional;
 
 public class CreateCategory implements Function{
     UserRepository repository;
@@ -27,7 +28,7 @@ public class CreateCategory implements Function{
             return null;
         } else {
             User user = repository.findById(history.getLogin()).get();
-            List<Category> categories = categoryRepository.findAllByUserAndNameCategory(user, text);
+            Optional<Category> categories = categoryRepository.findByUserAndNameCategory(user, text);
             if (!categories.isEmpty()) {
                 functionReply.setText("Такая категория уже есть");
                 return functionReply;
@@ -36,7 +37,7 @@ public class CreateCategory implements Function{
             new_category.setNameCategory(text);
             user.addCategory(new_category);
             repository.save(user);
-            functionReply.setText("Категория добавлена\n Введите название категории");
+            functionReply.setText("Категория добавлена\nВведите название категории");
         }
         return functionReply;
     }

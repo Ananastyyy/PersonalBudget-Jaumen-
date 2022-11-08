@@ -27,6 +27,10 @@ public class User {
         category.setUser(this);
     }
 
+    public void removeCategory(Category category) {
+        categoryList.remove(category);
+    }
+
     public String getLogin() {
         return login;
     }

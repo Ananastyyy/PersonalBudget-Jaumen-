@@ -8,5 +8,5 @@ import java.util.List;
 import java.util.Optional;
 
 public interface CategoryRepository extends CrudRepository<Category, Long> {
-    public List<Category> findAllByUserAndNameCategory(User user, String nameCategory);
+    Optional<Category> findByUserAndNameCategory(User user, String nameCategory);
 }

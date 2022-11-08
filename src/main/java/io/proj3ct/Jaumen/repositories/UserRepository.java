@@ -1,6 +1,5 @@
 package io.proj3ct.Jaumen.repositories;
 
-import io.proj3ct.Jaumen.models.Category;
 import io.proj3ct.Jaumen.models.User;
 import org.springframework.data.repository.CrudRepository;
 

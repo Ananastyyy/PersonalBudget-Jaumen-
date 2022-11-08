@@ -12,13 +12,12 @@ import java.util.Map;
 public class StatusHandlerConfig {
     private Map<Status, Function> navigation = new HashMap<>();;
 
-
     public StatusHandlerConfig(UserRepository userRepository, CategoryRepository categoryRepository) {
         navigation.put(Status.SLEEP, new Sleep());
         navigation.put(Status.LOG_IN, new LogIn(userRepository));
         navigation.put(Status.CREATE_USER, new CreateUser(userRepository));
         navigation.put(Status.CREATE_CATEGORY, new CreateCategory(userRepository, categoryRepository));
-        navigation.put(Status.WAIT_COMMAND, new WaitingCommand());
+        navigation.put(Status.WAIT_COMMAND, new WaitingCommand(userRepository, categoryRepository));
     }
 
     public Map<Status, Function> getNavigation() {
