@@ -5,8 +5,6 @@ import io.proj3ct.Jaumen.models.ChatHistory;
 import io.proj3ct.Jaumen.models.User;
 import io.proj3ct.Jaumen.repositories.CategoryRepository;
 import io.proj3ct.Jaumen.repositories.UserRepository;
-
-import javax.validation.constraints.Size;
 import java.util.List;
 import java.util.Optional;
 
