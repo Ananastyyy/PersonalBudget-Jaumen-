@@ -6,10 +6,10 @@ import io.proj3ct.Jaumen.models.ChatHistory;
 
 public class Sleep implements Function {
     @Override
-    public FunctionReply doFunction(ChatHistory user, String text) {
+    public FunctionReply doFunction(ChatHistory history, String text) {
         FunctionReply reply = new FunctionReply();
         if (text != null && text.equals("/start")) {
-            user.setStatus(Status.LOG_IN);
+            history.setStatus(Status.LOG_IN);
             return null;
         }
         reply.setText("(-, – )…zzzZZZ");

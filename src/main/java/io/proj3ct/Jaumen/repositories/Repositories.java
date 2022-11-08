@@ -9,9 +9,6 @@ public class Repositories {
     private ChatHistoryRepository chatHistoryRepository;
 
     @Autowired
-    private FamilyRepository familyRepository;
-
-    @Autowired
     private UserRepository userRepository;
 
     @Autowired
@@ -22,10 +19,6 @@ public class Repositories {
 
     public ChatHistoryRepository getUserRepository() {
         return chatHistoryRepository;
-    }
-
-    public FamilyRepository getFamilyRepository() {
-        return familyRepository;
     }
 
     public UserRepository getFamilyMemberRepository() {

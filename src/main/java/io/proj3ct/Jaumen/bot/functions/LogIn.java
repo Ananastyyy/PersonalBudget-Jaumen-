@@ -15,34 +15,33 @@ public class LogIn implements Function {
     }
 
     @Override
-    public FunctionReply doFunction(ChatHistory user, String text) {
+    public FunctionReply doFunction(ChatHistory history, String text) {
         FunctionReply reply = new FunctionReply();
         if (text == null){
             reply.setText("Введите логин");
         } else if (text.equals("/new_user")) {
-            user.setStatus(Status.CREATE_FAMILY);
-            user.setLogin(null);
+            history.setStatus(Status.CREATE_USER);
+            history.setLogin(null);
             return null;
-        } else if (user.getLogin() == null){
-            Optional<User> family = repository.findById(text);
-            if (family.isEmpty()) {
+        } else if (history.getLogin() == null){
+            Optional<User> user = repository.findById(text);
+            if (user.isEmpty()) {
                 reply.setText("Логин неверный, попробуйте снова");
             } else{
-                user.setLogin(text);
+                history.setLogin(text);
                 reply.setText("Введите пароль");
             }
         }
         else{
-            Family family = repository.findById(user.getLogin()).get();
+            User user = repository.findById(history.getLogin()).get();
             if(text.equals("/back")) {
-                user.setLogin(null);
-                reply.setText("Введите логин");
-            }
-            if (!text.equals(family.getPassword())){
+                history.setLogin(null);
+                return null;
+            }else if (!text.equals(user.getPassword())){
                 reply.setText("Пароль неверный, попробуйте снова");
             }
             else{
-                user.setStatus(Status.WAITING_COMMAND);
+                history.setStatus(Status.WAIT_COMMAND);
                 return null;
             }
         }
