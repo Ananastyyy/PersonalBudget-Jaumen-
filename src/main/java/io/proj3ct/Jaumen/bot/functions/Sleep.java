@@ -9,10 +9,20 @@ public class Sleep implements Function {
     public FunctionReply doFunction(ChatHistory history, String text) {
         FunctionReply reply = new FunctionReply();
         if (text != null && text.equals("/start")) {
-            history.setStatus(Status.LOG_IN);
+//            history.se(Status.LOG_IN);
             return null;
         }
         reply.setText("(-, – )…zzzZZZ");
         return reply;
+    }
+
+    @Override
+    public FunctionReply start(ChatHistory chatHistory) {
+        return null;
+    }
+
+    @Override
+    public void stop(ChatHistory chatHistory) {
+
     }
 }

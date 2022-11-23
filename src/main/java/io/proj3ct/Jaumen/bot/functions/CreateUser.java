@@ -15,34 +15,40 @@ public class CreateUser implements Function {
     public CreateUser(UserRepository userRepository) {
         this.repository = userRepository;
     }
-    public FunctionReply doFunction(ChatHistory history, String text) {
+    public FunctionReply doFunction(ChatHistory chatHistory, String text) {
         FunctionReply functionReply = new FunctionReply();
 
-        if (text == null || text.equals("/back")) {
-            history.setLogin(null);
-            functionReply.setText("Придумайте логин");
-            return functionReply;
-        }
-        Optional<User> user = repository.findById(text);
-        if (history.getLogin() == null) {
+        if (chatHistory.getLogin() == null) {
+            Optional<User> user = repository.findById(text);
+
             if (user.isEmpty()) {
-                history.setLogin(text);
+                chatHistory.setLogin(text);
                 functionReply.setText("Придумайте пароль");
-                return functionReply;
             } else {
                 functionReply.setText("Это логин уже занят");
-                return functionReply;
             }
         } else {
             User new_user = new User();
-            new_user.setLogin(history.getLogin());
+            new_user.setLogin(chatHistory.getLogin());
             new_user.setPassword(text);
             repository.save(new_user);
-            history.setStatus(Status.WAIT_COMMAND);
-            return null;
+            functionReply.setText("Пользователь создан");
+            chatHistory.setLastCommand(null);
         }
+        return functionReply;
+    }
 
+    @Override
+    public FunctionReply start(ChatHistory chatHistory) {
+        FunctionReply reply = new FunctionReply();
+        chatHistory.setLogInStatus(false);
+        chatHistory.setLogin(null);
+        reply.setText("Придумайте логин");
+        return reply;
+    }
 
-
+    @Override
+    public void stop(ChatHistory chatHistory) {
+        chatHistory.setLogin(null);
     }
 }

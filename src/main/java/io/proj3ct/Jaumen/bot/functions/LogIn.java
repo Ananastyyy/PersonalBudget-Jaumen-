@@ -15,36 +15,43 @@ public class LogIn implements Function {
     }
 
     @Override
-    public FunctionReply doFunction(ChatHistory history, String text) {
+    public FunctionReply doFunction(ChatHistory chatHistory, String text) {
         FunctionReply reply = new FunctionReply();
-        if (text == null){
-            reply.setText("Введите логин");
-        } else if (text.equals("/new_user")) {
-            history.setStatus(Status.CREATE_USER);
-            history.setLogin(null);
-            return null;
-        } else if (history.getLogin() == null){
+
+        if (chatHistory.getLogin() == null) {
             Optional<User> user = repository.findById(text);
+
             if (user.isEmpty()) {
                 reply.setText("Логин неверный, попробуйте снова");
-            } else{
-                history.setLogin(text);
+            } else {
+                chatHistory.setLogin(text);
                 reply.setText("Введите пароль");
             }
-        }
-        else{
-            User user = repository.findById(history.getLogin()).get();
-            if(text.equals("/back")) {
-                history.setLogin(null);
-                return null;
-            }else if (!text.equals(user.getPassword())){
+        } else {
+            User user = repository.findById(chatHistory.getLogin()).get();
+            
+            if (!text.equals(user.getPassword())){
                 reply.setText("Пароль неверный, попробуйте снова");
-            }
-            else{
-                history.setStatus(Status.WAIT_COMMAND);
-                return null;
+            } else {
+                chatHistory.setLogInStatus(true);
+                chatHistory.setLastCommand(null);
+                reply.setText("Вы вошли");
             }
         }
         return reply;
+    }
+
+    @Override
+    public FunctionReply start(ChatHistory chatHistory) {
+        FunctionReply reply = new FunctionReply();
+        chatHistory.setLogInStatus(false);
+        chatHistory.setLogin(null);
+        reply.setText("Введите логин");
+        return reply;
+    }
+
+    @Override
+    public void stop(ChatHistory chatHistory) {
+        chatHistory.setLogin(null);
     }
 }
