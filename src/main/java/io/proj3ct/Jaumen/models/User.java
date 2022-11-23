@@ -10,7 +10,7 @@ public class User {
     private String login;
     private String password;
 
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "user", cascade = CascadeType.ALL)
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Category> categoryList = new ArrayList<>();
 
 
@@ -29,6 +29,7 @@ public class User {
 
     public void removeCategory(Category category) {
         categoryList.remove(category);
+        category.setUser(null);
     }
 
     public String getLogin() {
