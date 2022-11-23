@@ -24,7 +24,7 @@ public class CreateCategory implements Function{
         if (text == null) {
             functionReply.setText("Введите название категории");
         } else if (text.equals("/back")) {
-            history.setStatus(Status.WAIT_COMMAND);
+//            history.setStatus(Status.WAIT_COMMAND);
             return null;
         } else {
             User user = repository.findById(history.getLogin()).get();
@@ -40,5 +40,19 @@ public class CreateCategory implements Function{
             functionReply.setText("Категория добавлена\nВведите название категории");
         }
         return functionReply;
+    }
+
+    @Override
+    public FunctionReply start(ChatHistory chatHistory) {
+        FunctionReply functionReply = new FunctionReply();
+        if (chatHistory.isLogIn()) {
+            functionReply.setText("Введите название категории");
+        }
+        return null;
+    }
+
+    @Override
+    public void stop(ChatHistory chatHistory) {
+
     }
 }

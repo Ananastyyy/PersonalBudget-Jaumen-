@@ -23,13 +23,13 @@ public class WaitingCommand implements Function{
         if (text != null) {
             String[] args = text.split(" ");
             if (text.equals("/sleep")) {
-                history.setStatus(Status.SLEEP);
+//                history.setStatus(Status.SLEEP);
                 history.setLogin(null);
                 return null;
             } else if (text.equals("/all_cat")) {
                 reply.setText(getAllCategories(history.getLogin()));
             } else if (text.equals("/add_cat")) {
-                history.setStatus(Status.CREATE_CATEGORY);
+//                history.setStatus(Status.CREATE_CATEGORY);
                 return null;
             } else if (args[0].equals("/del_cat")) {
                 if (args.length > 1) {
@@ -44,6 +44,16 @@ public class WaitingCommand implements Function{
             reply.setText("Waiting command");
         }
         return reply;
+    }
+
+    @Override
+    public FunctionReply start(ChatHistory chatHistory) {
+        return null;
+    }
+
+    @Override
+    public void stop(ChatHistory chatHistory) {
+
     }
 
     private String getAllCategories(String login) {

@@ -4,50 +4,40 @@ import io.proj3ct.Jaumen.bot.Bot;
 import io.proj3ct.Jaumen.bot.BotReply;
 import io.proj3ct.Jaumen.bot.ChatUpdate;
 import io.proj3ct.Jaumen.bot.functions.FunctionReply;
-import io.proj3ct.Jaumen.bot.functions.Status;
-import io.proj3ct.Jaumen.bot.functions.StatusHandler;
+import io.proj3ct.Jaumen.configs.BotConfig;
 import io.proj3ct.Jaumen.models.ChatHistory;
-import io.proj3ct.Jaumen.repositories.Repositories;
 import org.springframework.stereotype.Component;
 import java.util.Optional;
 
 @Component
 public class BotService implements Bot {
-    private Repositories repositories;
-    private StatusHandler statusHandler;
+    private BotConfig config;
 
-    public BotService(StatusHandler statusHandler, Repositories repositories) {
-        this.statusHandler = statusHandler;
-        this.repositories = repositories;
+    public BotService(BotConfig config) {
+        this.config = config;
     }
 
-    private ChatHistory createUser(Long userid) {
-        ChatHistory user = new ChatHistory();
-        user.setId(userid);
-        user.setStatus(Status.SLEEP);
-        return user;
+    private ChatHistory createChatHistory(Long userid) {
+        ChatHistory chatHistory = new ChatHistory();
+        chatHistory.setId(userid);
+        return chatHistory;
     }
-    private ChatHistory getUser(Long userId) {
-        Optional<ChatHistory> user = repositories.getUserRepository().findById(userId);
-        if (user.isEmpty()) {
-            return createUser(userId);
+    private ChatHistory getChatHistory(Long userId) {
+        Optional<ChatHistory> chatHistory = config.chatHistoryRepository().findById(userId);
+        if (chatHistory.isEmpty()) {
+            return createChatHistory(userId);
         }
-        return user.get();
+        return chatHistory.get();
 
     }
     @Override
     public BotReply reply(ChatUpdate chatUpdate) {
         BotReply botReply = new BotReply(chatUpdate.getUserId(), chatUpdate.getChatId());
-        ChatHistory user = getUser(chatUpdate.getUserId()); // История чата
+        ChatHistory chatHistory = getChatHistory(chatUpdate.getUserId()); // История чата
         String text = chatUpdate.getText();
-        Status status = user.getStatus();
-        FunctionReply functionReply = statusHandler.getFunction(status).doFunction(user, text);
-        if (functionReply == null) {
-            status = user.getStatus();
-            functionReply = statusHandler.getFunction(status).doFunction(user, null);
-        }
+        FunctionReply functionReply = config.textHandler().process(chatHistory, text);
         botReply.setText(functionReply.getText());
-        repositories.getUserRepository().save(user);
+        config.chatHistoryRepository().save(chatHistory);
         return botReply;
     }
 }
