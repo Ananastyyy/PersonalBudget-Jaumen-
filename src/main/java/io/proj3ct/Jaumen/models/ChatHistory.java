@@ -38,6 +38,6 @@ public class ChatHistory {
     }
 
     public void setLogInStatus(boolean status) {
-        isLogIn = status;
+        this.isLogIn = status;
     }
 }

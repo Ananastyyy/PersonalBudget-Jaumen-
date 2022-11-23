@@ -15,6 +15,7 @@ public class CreateUser implements Function {
     public CreateUser(UserRepository userRepository) {
         this.repository = userRepository;
     }
+
     public FunctionReply doFunction(ChatHistory chatHistory, String text) {
         FunctionReply functionReply = new FunctionReply();
 
@@ -34,17 +35,18 @@ public class CreateUser implements Function {
             repository.save(new_user);
             functionReply.setText("Пользователь создан");
             chatHistory.setLastCommand(null);
+            chatHistory.setLogInStatus(true);
         }
         return functionReply;
     }
 
     @Override
     public FunctionReply start(ChatHistory chatHistory) {
-        FunctionReply reply = new FunctionReply();
+        FunctionReply functionReply = new FunctionReply();
         chatHistory.setLogInStatus(false);
         chatHistory.setLogin(null);
-        reply.setText("Придумайте логин");
-        return reply;
+        functionReply.setText("Придумайте логин");
+        return functionReply;
     }
 
     @Override

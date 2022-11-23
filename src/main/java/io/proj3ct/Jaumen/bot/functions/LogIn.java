@@ -29,8 +29,8 @@ public class LogIn implements Function {
             }
         } else {
             User user = repository.findById(chatHistory.getLogin()).get();
-            
-            if (!text.equals(user.getPassword())){
+
+            if (!text.equals(user.getPassword())) {
                 reply.setText("Пароль неверный, попробуйте снова");
             } else {
                 chatHistory.setLogInStatus(true);
