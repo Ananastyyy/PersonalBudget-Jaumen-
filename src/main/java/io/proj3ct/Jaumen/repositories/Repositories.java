@@ -17,11 +17,11 @@ public class Repositories {
     @Autowired
     private ChequeRepository chequeRepository;
 
-    public ChatHistoryRepository getUserRepository() {
+    public ChatHistoryRepository getChatHistoryRepository() {
         return chatHistoryRepository;
     }
 
-    public UserRepository getFamilyMemberRepository() {
+    public UserRepository getUserRepository() {
         return userRepository;
     }
 

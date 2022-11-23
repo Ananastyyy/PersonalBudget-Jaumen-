@@ -6,10 +6,9 @@ import io.proj3ct.Jaumen.models.User;
 import io.proj3ct.Jaumen.repositories.CategoryRepository;
 import io.proj3ct.Jaumen.repositories.UserRepository;
 
-import java.util.List;
 import java.util.Optional;
 
-public class CreateCategory implements Function{
+public class CreateCategory implements Function {
     UserRepository repository;
     CategoryRepository categoryRepository;
 
@@ -19,25 +18,19 @@ public class CreateCategory implements Function{
     }
 
     @Override
-    public FunctionReply doFunction(ChatHistory history, String text) {
+    public FunctionReply doFunction(ChatHistory chatHistory, String text) {
         FunctionReply functionReply = new FunctionReply();
-        if (text == null) {
-            functionReply.setText("Введите название категории");
-        } else if (text.equals("/back")) {
-//            history.setStatus(Status.WAIT_COMMAND);
-            return null;
+        User user = repository.findById(chatHistory.getLogin()).get();
+        Optional<Category> categories = categoryRepository.findByUserAndNameCategory(user, text);
+
+        if (!categories.isEmpty()) {
+            functionReply.setText("Такая категория уже существует, введите новую");
         } else {
-            User user = repository.findById(history.getLogin()).get();
-            Optional<Category> categories = categoryRepository.findByUserAndNameCategory(user, text);
-            if (!categories.isEmpty()) {
-                functionReply.setText("Такая категория уже есть");
-                return functionReply;
-            }
             Category new_category = new Category();
             new_category.setNameCategory(text);
             user.addCategory(new_category);
             repository.save(user);
-            functionReply.setText("Категория добавлена\nВведите название категории");
+            functionReply.setText("Категория добавлена\nВведите название новой категории");
         }
         return functionReply;
     }
@@ -45,14 +38,11 @@ public class CreateCategory implements Function{
     @Override
     public FunctionReply start(ChatHistory chatHistory) {
         FunctionReply functionReply = new FunctionReply();
-        if (chatHistory.isLogIn()) {
-            functionReply.setText("Введите название категории");
-        }
-        return null;
+        functionReply.setText("Введите название новой категории");
+        return functionReply;
     }
 
     @Override
     public void stop(ChatHistory chatHistory) {
-
     }
 }

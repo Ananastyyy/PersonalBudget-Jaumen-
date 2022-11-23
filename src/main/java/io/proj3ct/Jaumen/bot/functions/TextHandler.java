@@ -1,18 +1,21 @@
 package io.proj3ct.Jaumen.bot.functions;
 
 import io.proj3ct.Jaumen.models.ChatHistory;
+import io.proj3ct.Jaumen.repositories.Repositories;
 import io.proj3ct.Jaumen.repositories.UserRepository;
 import org.springframework.stereotype.Component;
+
 import java.util.HashMap;
 
 @Component
 public class TextHandler {
     private HashMap<String, Command> navigation;
 
-    public TextHandler(UserRepository rep) {
+    public TextHandler(Repositories repositories) {
         this.navigation = new HashMap<>();
-        navigation.put("/l", new Command(false, new LogIn(rep)));
-        navigation.put("/n", new Command(true, new CreateUser(rep)));
+        navigation.put("/l", new Command(false, new LogIn(repositories.getUserRepository())));
+        navigation.put("/n", new Command(false, new CreateUser(repositories.getUserRepository())));
+        navigation.put("/c", new Command(true, new CreateCategory(repositories.getUserRepository(), repositories.getCategoryRepository())));
     }
 
     public FunctionReply process(ChatHistory chatHistory, String text) {
@@ -20,7 +23,7 @@ public class TextHandler {
         Command lastCommand = navigation.get(chatHistory.getLastCommand());
         Function function = null;
         Function lastFunction = null;
-        
+
         if (command != null) {
             function = command.function();
         }
