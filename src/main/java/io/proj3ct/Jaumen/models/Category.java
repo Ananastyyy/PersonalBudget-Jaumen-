@@ -1,6 +1,7 @@
 package io.proj3ct.Jaumen.models;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity(name = "Categories")
@@ -13,9 +14,13 @@ public class Category {
     @JoinColumn(name = "user_login")
     private User user;
 
-//    @OneToMany(mappedBy = "category", cascade = CascadeType.ALL)
-//    private List<Cheque> chequeList;
+    @OneToMany(fetch=FetchType.EAGER, mappedBy = "category", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Cheque> chequeList = new ArrayList<>();
 
+    public void addCheque(Cheque cheque) {
+        chequeList.add(cheque);
+        cheque.setCategory(this);
+    }
     public Long getId() {
         return id;
     }
@@ -40,11 +45,11 @@ public class Category {
         this.user = user;
     }
 
-//    public List<Cheque> getChequeList() {
-//        return chequeList;
-//    }
-//
-//    public void setChequeList(List<Cheque> chequeList) {
-//        this.chequeList = chequeList;
-//    }
+    public List<Cheque> getChequeList() {
+        return chequeList;
+    }
+
+    public void setChequeList(List<Cheque> chequeList) {
+        this.chequeList = chequeList;
+    }
 }

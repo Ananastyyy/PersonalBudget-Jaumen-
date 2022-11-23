@@ -4,7 +4,7 @@ import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
-@Entity(name = "FamilyMembers")
+@Entity(name = "Users")
 public class User {
     @Id
     private String login;
