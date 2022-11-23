@@ -20,17 +20,17 @@ public class CreateCategory implements Function {
     @Override
     public FunctionReply doFunction(ChatHistory chatHistory, String text) {
         FunctionReply functionReply = new FunctionReply();
-        User user = repository.findById(chatHistory.getLogin()).get();
-        Optional<Category> categories = categoryRepository.findByUserAndNameCategory(user, text);
+        Optional<Category> categories = categoryRepository.findByNameCategoryAndUserLogin(chatHistory.getLogin(), text);
 
         if (!categories.isEmpty()) {
-            functionReply.setText("Такая категория уже существует, введите новую");
+            functionReply.setText("Такая категория уже существует");
         } else {
+            User user = repository.findById(chatHistory.getLogin()).get();
             Category new_category = new Category();
             new_category.setNameCategory(text);
             user.addCategory(new_category);
             repository.save(user);
-            functionReply.setText("Категория добавлена\nВведите название новой категории");
+            functionReply.setText("Категория добавлена!\nВведите название новой категории");
         }
         return functionReply;
     }

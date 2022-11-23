@@ -18,22 +18,22 @@ public class WaitingCommand implements Function{
     }
 
     @Override
-    public FunctionReply doFunction(ChatHistory history, String text) {
+    public FunctionReply doFunction(ChatHistory chatHistory, String text) {
         FunctionReply reply = new FunctionReply();
         if (text != null) {
             String[] args = text.split(" ");
             if (text.equals("/sleep")) {
-//                history.setStatus(Status.SLEEP);
-                history.setLogin(null);
+//                chatHistory.setStatus(Status.SLEEP);
+                chatHistory.setLogin(null);
                 return null;
             } else if (text.equals("/all_cat")) {
-                reply.setText(getAllCategories(history.getLogin()));
+                reply.setText(getAllCategories(chatHistory.getLogin()));
             } else if (text.equals("/add_cat")) {
-//                history.setStatus(Status.CREATE_CATEGORY);
+//                chatHistory.setStatus(Status.CREATE_CATEGORY);
                 return null;
             } else if (args[0].equals("/del_cat")) {
                 if (args.length > 1) {
-                    reply.setText(removeCategory(args[1], history.getLogin()));
+                    reply.setText(removeCategory(args[1], chatHistory.getLogin()));
                 } else{
                     reply.setText("Используйте: /del_cat <nameCategory>");
                 }

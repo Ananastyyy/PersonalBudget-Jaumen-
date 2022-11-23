@@ -13,8 +13,8 @@ public class Category {
     @JoinColumn(name = "user_login")
     private User user;
 
-    @OneToMany(mappedBy = "category", cascade = CascadeType.ALL)
-    private List<Cheque> chequeList;
+//    @OneToMany(mappedBy = "category", cascade = CascadeType.ALL)
+//    private List<Cheque> chequeList;
 
     public Long getId() {
         return id;
@@ -40,11 +40,11 @@ public class Category {
         this.user = user;
     }
 
-    public List<Cheque> getChequeList() {
-        return chequeList;
-    }
-
-    public void setChequeList(List<Cheque> chequeList) {
-        this.chequeList = chequeList;
-    }
+//    public List<Cheque> getChequeList() {
+//        return chequeList;
+//    }
+//
+//    public void setChequeList(List<Cheque> chequeList) {
+//        this.chequeList = chequeList;
+//    }
 }

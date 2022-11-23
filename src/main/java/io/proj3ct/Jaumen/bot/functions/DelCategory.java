@@ -5,7 +5,6 @@ import io.proj3ct.Jaumen.models.ChatHistory;
 import io.proj3ct.Jaumen.models.User;
 import io.proj3ct.Jaumen.repositories.CategoryRepository;
 import io.proj3ct.Jaumen.repositories.UserRepository;
-
 import java.util.Optional;
 
 public class DelCategory implements Function {
@@ -18,18 +17,17 @@ public class DelCategory implements Function {
     }
     @Override
     public FunctionReply doFunction(ChatHistory chatHistory, String text) {
-        User user = userRepository.findById(chatHistory.getLogin()).get();
-        Optional<Category> cat = categoryRepository.findByUserAndNameCategory(user, text);
+        Optional<Category> cat = categoryRepository.findByNameCategoryAndUserLogin(text, chatHistory.getLogin());
         FunctionReply functionReply = new FunctionReply();
 
         if (cat.isEmpty()) {
-            functionReply.setText(String.format("Категория: %s не существует", text));
+            functionReply.setText(String.format("Категория \"%s\" не существует", text));
         } else {
             Category category = cat.get();
-            category.getUser().removeCategory(category);
-            userRepository.save(category.getUser());
-            categoryRepository.deleteById(category.getId());
-            functionReply.setText(String.format("Категория: %s удалена.\nВведите название категории, которую хотите удалить.", text));
+            User user = category.getUser();
+            user.removeCategory(category);
+            userRepository.save(user);
+            functionReply.setText(String.format("Категория \"%s\" удалена.\nВведите название категории, которую хотите удалить.", text));
         }
         return functionReply;
     }

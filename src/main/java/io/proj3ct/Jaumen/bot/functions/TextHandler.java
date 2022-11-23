@@ -2,7 +2,6 @@ package io.proj3ct.Jaumen.bot.functions;
 
 import io.proj3ct.Jaumen.models.ChatHistory;
 import io.proj3ct.Jaumen.repositories.Repositories;
-import io.proj3ct.Jaumen.repositories.UserRepository;
 import org.springframework.stereotype.Component;
 import java.util.HashMap;
 
@@ -13,9 +12,10 @@ public class TextHandler {
     public TextHandler(Repositories repositories) {
         this.navigation = new HashMap<>();
         navigation.put("/l", new Command(false, new LogIn(repositories.getUserRepository())));
-        navigation.put("/n", new Command(true, new CreateUser(repositories.getUserRepository())));
+        navigation.put("/n", new Command(false, new CreateUser(repositories.getUserRepository())));
         navigation.put("/d", new Command(true, new DelCategory(repositories.getUserRepository(), repositories.getCategoryRepository())));
         navigation.put("/c", new Command(true, new CreateCategory(repositories.getUserRepository(), repositories.getCategoryRepository())));
+        navigation.put("/a", new Command(true, new AllCategory(repositories.getCategoryRepository())));
     }
 
     public FunctionReply process(ChatHistory chatHistory, String text) {
@@ -42,7 +42,7 @@ public class TextHandler {
             if (lastFunction != null) {
                 lastFunction.stop(chatHistory);
             }
-            if (command.isPrivate() == chatHistory.isLogIn()) {
+            if (command.isPrivate() == chatHistory.isLogIn() || !command.isPrivate()) {
                 functionReply = function.start(chatHistory);
                 chatHistory.setLastCommand(text);
             } else {
