@@ -2,6 +2,7 @@ package io.proj3ct.Jaumen.bot.functions;
 
 import io.proj3ct.Jaumen.models.ChatHistory;
 import io.proj3ct.Jaumen.repositories.Repositories;
+import io.proj3ct.Jaumen.repositories.UserRepository;
 import org.springframework.stereotype.Component;
 import java.util.HashMap;
 
@@ -16,6 +17,8 @@ public class TextHandler {
         navigation.put("/d", new Command(true, new DelCategory(repositories.getUserRepository(), repositories.getCategoryRepository())));
         navigation.put("/c", new Command(true, new CreateCategory(repositories.getUserRepository(), repositories.getCategoryRepository())));
         navigation.put("/a", new Command(true, new AllCategory(repositories.getCategoryRepository())));
+        navigation.put("/add", new Command(true, new AddCheque(repositories.getCategoryRepository(), repositories.getUserRepository())));
+
     }
 
     public FunctionReply process(ChatHistory chatHistory, String text) {

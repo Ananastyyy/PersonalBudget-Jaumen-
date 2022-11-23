@@ -2,7 +2,7 @@ package io.proj3ct.Jaumen.models;
 
 import javax.persistence.*;
 
-@Entity(name = "Users")
+@Entity(name = "Chat_history")
 public class ChatHistory {
     @Id
     private Long id;

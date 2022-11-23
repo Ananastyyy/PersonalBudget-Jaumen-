@@ -1,7 +1,7 @@
 package io.proj3ct.Jaumen.models;
 
 import javax.persistence.*;
-import java.util.Date;
+import java.time.LocalDate;
 
 @Entity(name = "Cheques")
 public class Cheque {
@@ -9,11 +9,12 @@ public class Cheque {
     @GeneratedValue
     private Long id;
     private Long cost;
-    private Date date;
+    private LocalDate date;
 
     @ManyToOne
     @JoinColumn(name = "category_id")
     private Category category;
+
 
     public Long getId() {
         return id;
@@ -31,11 +32,11 @@ public class Cheque {
         this.cost = cost;
     }
 
-    public Date getDate() {
+    public LocalDate getDate() {
         return date;
     }
 
-    public void setDate(Date date) {
+    public void setDate(LocalDate date) {
         this.date = date;
     }
 
@@ -46,4 +47,5 @@ public class Cheque {
     public void setCategory(Category category) {
         this.category = category;
     }
+
 }
