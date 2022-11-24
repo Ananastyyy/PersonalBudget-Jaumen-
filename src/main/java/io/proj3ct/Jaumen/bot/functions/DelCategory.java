@@ -5,6 +5,8 @@ import io.proj3ct.Jaumen.models.ChatHistory;
 import io.proj3ct.Jaumen.models.User;
 import io.proj3ct.Jaumen.repositories.CategoryRepository;
 import io.proj3ct.Jaumen.repositories.UserRepository;
+
+import java.util.List;
 import java.util.Optional;
 
 public class DelCategory implements Function {
@@ -17,13 +19,13 @@ public class DelCategory implements Function {
     }
     @Override
     public FunctionReply doFunction(ChatHistory chatHistory, String text) {
-        Optional<Category> cat = categoryRepository.findByNameCategoryAndUserLogin(text, chatHistory.getLogin());
+        List<Category> cat = categoryRepository.findAllByNameCategoryAndUserLogin(text, chatHistory.getLogin());
         FunctionReply functionReply = new FunctionReply();
 
         if (cat.isEmpty()) {
             functionReply.setText(String.format("Категория \"%s\" не существует", text));
         } else {
-            Category category = cat.get();
+            Category category = cat.get(0);
             User user = category.getUser();
             user.removeCategory(category);
             userRepository.save(user);

@@ -19,8 +19,12 @@ public class AllCategory implements Function {
         StringBuilder outText = new StringBuilder();
         FunctionReply functionReply = new FunctionReply();
 
-        for (Category category : allCategories) {
-            outText.append(category.getNameCategory()).append('\n');
+        if (allCategories.isEmpty()) {
+            functionReply.setText("Список категорий пуст");
+        } else {
+            for (Category category : allCategories) {
+                outText.append(category.getNameCategory()).append('\n');
+            }
         }
         functionReply.setText(outText.toString());
         chatHistory.setLastCommand(null);

@@ -6,30 +6,30 @@ import io.proj3ct.Jaumen.models.User;
 import io.proj3ct.Jaumen.repositories.CategoryRepository;
 import io.proj3ct.Jaumen.repositories.UserRepository;
 
-import java.util.Optional;
+import java.util.List;
 
 public class CreateCategory implements Function {
-    UserRepository repository;
+    UserRepository userRepository;
     CategoryRepository categoryRepository;
 
-    public CreateCategory(UserRepository repository, CategoryRepository categoryRepository) {
-        this.repository = repository;
+    public CreateCategory(UserRepository userRepository, CategoryRepository categoryRepository) {
+        this.userRepository = userRepository;
         this.categoryRepository = categoryRepository;
     }
 
     @Override
     public FunctionReply doFunction(ChatHistory chatHistory, String text) {
         FunctionReply functionReply = new FunctionReply();
-        Optional<Category> categories = categoryRepository.findByNameCategoryAndUserLogin(chatHistory.getLogin(), text);
+        List<Category> categories = categoryRepository.findAllByNameCategoryAndUserLogin(text, chatHistory.getLogin());
 
         if (!categories.isEmpty()) {
             functionReply.setText("Такая категория уже существует");
         } else {
-            User user = repository.findById(chatHistory.getLogin()).get();
+            User user = userRepository.findById(chatHistory.getLogin()).get();
             Category new_category = new Category();
             new_category.setNameCategory(text);
             user.addCategory(new_category);
-            repository.save(user);
+            userRepository.save(user);
             functionReply.setText("Категория добавлена!\nВведите название новой категории");
         }
         return functionReply;
