@@ -3,7 +3,6 @@ package io.proj3ct.Jaumen.bot.functions;
 import io.proj3ct.Jaumen.models.Category;
 import io.proj3ct.Jaumen.models.ChatHistory;
 import io.proj3ct.Jaumen.models.Cheque;
-import io.proj3ct.Jaumen.models.User;
 import io.proj3ct.Jaumen.repositories.CategoryRepository;
 import io.proj3ct.Jaumen.repositories.UserRepository;
 
@@ -37,18 +36,18 @@ public class AddCheque implements Function{
             throw new RuntimeException(e);
         }
 
-        Optional<Category> categories = categoryRepository.findByNameCategoryAndUserLogin(arguments.category, chatHistory.getLogin());
+        List<Category> categories = categoryRepository.findAllByNameCategoryAndUserLogin(arguments.category, chatHistory.getLogin());
 
         if (categories.isEmpty()) {
             functionReply.setText("Такой категории не существует");
         } else {
             Cheque newCheque = new Cheque();
-            newCheque.setCategory(categories.get());
+            newCheque.setCategory(categories.get(0));
             newCheque.setCost(arguments.cost);
             newCheque.setDate(arguments.date);
 
-            categories.get().addCheque(newCheque);
-            categoryRepository.save(categories.get());
+            categories.get(0).addCheque(newCheque);
+            categoryRepository.save(categories.get(0));
             functionReply.setText("Чек добавлен\nВведите данные нового чека");
         }
         return functionReply;

@@ -18,6 +18,7 @@ public class TextHandler {
         navigation.put("/c", new Command(true, new CreateCategory(repositories.getUserRepository(), repositories.getCategoryRepository())));
         navigation.put("/a", new Command(true, new AllCategory(repositories.getCategoryRepository())));
         navigation.put("/add", new Command(true, new AddCheque(repositories.getCategoryRepository(), repositories.getUserRepository())));
+        navigation.put("/f", new Command(true, new FilterCheque(repositories.getCategoryRepository())));
 
     }
 
@@ -46,8 +47,8 @@ public class TextHandler {
                 lastFunction.stop(chatHistory);
             }
             if (command.isPrivate() == chatHistory.isLogIn() || !command.isPrivate()) {
-                functionReply = function.start(chatHistory);
                 chatHistory.setLastCommand(text);
+                functionReply = function.start(chatHistory);
             } else {
                 functionReply.setText("Вы не авторизировались");
             }

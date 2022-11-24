@@ -48,4 +48,9 @@ public class Cheque {
         this.category = category;
     }
 
+    public String toString() {
+        return "%s: %s руб.    %d.%d.%d".formatted(category.getNameCategory(), cost,
+                date.getDayOfMonth(), date.getMonth().getValue(), date.getYear());
+    }
+
 }
