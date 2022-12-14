@@ -14,30 +14,30 @@ public class TextHandler {
     public FunctionReply process(ChatHistory chatHistory, String text) {
         Command command = commandHandler.getCommand(text);
         Command lastCommand = commandHandler.getCommand(chatHistory.getLastCommand());
-        Function function = null;
-        Function lastFunction = null;
+        FunctionInterface FunctionInterface = null;
+        FunctionInterface lastFunctionInterface = null;
         
         if (command != null) {
-            function = command.function();
+            FunctionInterface = command.FunctionInterface();
         }
         if (lastCommand != null) {
-            lastFunction = lastCommand.function();
+            lastFunctionInterface = lastCommand.FunctionInterface();
         }
         FunctionReply functionReply = new FunctionReply();
 
-        if (function == null) {
-            if (lastFunction == null) {
+        if (FunctionInterface == null) {
+            if (lastFunctionInterface == null) {
                 functionReply.setText("Введите команду");
             } else {
-                functionReply = lastFunction.doFunction(chatHistory, text);
+                functionReply = lastFunctionInterface.doFunction(chatHistory, text);
             }
         } else {
-            if (lastFunction != null) {
-                lastFunction.stop(chatHistory);
+            if (lastFunctionInterface != null) {
+                lastFunctionInterface.stop(chatHistory);
             }
             if (command.isPrivate() == chatHistory.isLogIn() || !command.isPrivate()) {
                 chatHistory.setLastCommand(text);
-                functionReply = function.preprocess(chatHistory);
+                functionReply = FunctionInterface.preprocess(chatHistory);
             } else {
                 functionReply.setText("Вы не авторизировались");
             }

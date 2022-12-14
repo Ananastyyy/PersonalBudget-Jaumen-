@@ -7,9 +7,8 @@ import io.proj3ct.Jaumen.repositories.CategoryRepository;
 import io.proj3ct.Jaumen.repositories.UserRepository;
 
 import java.util.List;
-import java.util.Optional;
 
-public class DelCategory implements Function {
+public class DelCategory extends Functions {
     UserRepository userRepository;
     CategoryRepository categoryRepository;
 
@@ -40,7 +39,4 @@ public class DelCategory implements Function {
         functionReply.setText("Введите название категории, которую хотите удалить.");
         return functionReply;
     }
-
-    @Override
-    public void stop(ChatHistory chatHistory) {}
 }
