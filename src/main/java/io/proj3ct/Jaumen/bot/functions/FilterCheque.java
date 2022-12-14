@@ -77,7 +77,7 @@ public class FilterCheque implements Function {
     }
 
     @Override
-    public FunctionReply start(ChatHistory chatHistory) {
+    public FunctionReply preprocess(ChatHistory chatHistory) {
         FunctionReply functionReply = new FunctionReply();
         functionReply.setText("Введите запрос");
         return functionReply;

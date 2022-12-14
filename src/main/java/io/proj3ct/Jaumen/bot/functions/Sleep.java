@@ -8,7 +8,7 @@ public class Sleep implements Function {
     @Override
     public FunctionReply doFunction(ChatHistory chatHistory, String text) {
         FunctionReply reply = new FunctionReply();
-        if (text != null && text.equals("/start")) {
+        if (text != null && text.equals("/preprocess")) {
 //            chatHistory.se(Status.LOG_IN);
             return null;
         }
@@ -17,7 +17,7 @@ public class Sleep implements Function {
     }
 
     @Override
-    public FunctionReply start(ChatHistory chatHistory) {
+    public FunctionReply preprocess(ChatHistory chatHistory) {
         return null;
     }
 

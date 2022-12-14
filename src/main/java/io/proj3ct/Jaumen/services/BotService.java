@@ -3,10 +3,13 @@ package io.proj3ct.Jaumen.services;
 import io.proj3ct.Jaumen.bot.Bot;
 import io.proj3ct.Jaumen.bot.BotReply;
 import io.proj3ct.Jaumen.bot.ChatUpdate;
+import io.proj3ct.Jaumen.bot.functions.CommandNameAndDescription;
 import io.proj3ct.Jaumen.bot.functions.FunctionReply;
 import io.proj3ct.Jaumen.configs.BotConfig;
 import io.proj3ct.Jaumen.models.ChatHistory;
 import org.springframework.stereotype.Component;
+
+import java.util.List;
 import java.util.Optional;
 
 @Component
@@ -39,5 +42,9 @@ public class BotService implements Bot {
         botReply.setText(functionReply.getText());
         config.chatHistoryRepository().save(chatHistory);
         return botReply;
+    }
+
+    public List<CommandNameAndDescription> getListCommandNameAndDescription() {
+        return this.config.textHandler().getCommandHandler().getAllCommandNameAndDescription();
     }
 }

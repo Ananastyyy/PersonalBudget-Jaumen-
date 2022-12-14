@@ -1,3 +1,3 @@
 package io.proj3ct.Jaumen.bot.functions;
 
-public record Command(boolean isPrivate, Function function) {}
+public record Command(String description, boolean isPrivate, Function function) {}

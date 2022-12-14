@@ -36,7 +36,7 @@ public class CreateCategory implements Function {
     }
 
     @Override
-    public FunctionReply start(ChatHistory chatHistory) {
+    public FunctionReply preprocess(ChatHistory chatHistory) {
         FunctionReply functionReply = new FunctionReply();
         functionReply.setText("Введите название новой категории");
         return functionReply;
