@@ -55,7 +55,7 @@ public class AddCheque implements Function{
 
 
     @Override
-    public FunctionReply start(ChatHistory chatHistory) {
+    public FunctionReply preprocess(ChatHistory chatHistory) {
         FunctionReply functionReply = new FunctionReply();
         functionReply.setText("Введите данные чека");
         return functionReply;

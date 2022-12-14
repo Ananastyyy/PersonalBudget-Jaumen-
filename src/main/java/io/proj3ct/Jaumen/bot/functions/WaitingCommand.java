@@ -47,7 +47,7 @@ public class WaitingCommand implements Function{
     }
 
     @Override
-    public FunctionReply start(ChatHistory chatHistory) {
+    public FunctionReply preprocess(ChatHistory chatHistory) {
         return null;
     }
 

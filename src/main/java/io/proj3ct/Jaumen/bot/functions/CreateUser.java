@@ -41,7 +41,7 @@ public class CreateUser implements Function {
     }
 
     @Override
-    public FunctionReply start(ChatHistory chatHistory) {
+    public FunctionReply preprocess(ChatHistory chatHistory) {
         FunctionReply functionReply = new FunctionReply();
         chatHistory.setLogInStatus(false);
         chatHistory.setLogin(null);

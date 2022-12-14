@@ -4,6 +4,6 @@ import io.proj3ct.Jaumen.models.ChatHistory;
 
 public interface Function {
     FunctionReply doFunction(ChatHistory chatHistory, String text);
-    FunctionReply start(ChatHistory chatHistory);
+    FunctionReply preprocess(ChatHistory chatHistory);
     void stop(ChatHistory chatHistory);
 }
