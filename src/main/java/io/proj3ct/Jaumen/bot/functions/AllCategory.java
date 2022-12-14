@@ -20,7 +20,7 @@ public class AllCategory implements Function {
         FunctionReply functionReply = new FunctionReply();
 
         if (allCategories.isEmpty()) {
-            functionReply.setText("Список категорий пуст");
+            outText.append("Список категорий пуст");
         } else {
             for (Category category : allCategories) {
                 outText.append(category.getNameCategory()).append('\n');
