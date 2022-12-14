@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
 import java.util.Optional;
 
 @Component
-public class CreateUser implements Function {
+public class CreateUser extends Functions {
     private UserRepository repository;
 
     public CreateUser(UserRepository userRepository) {

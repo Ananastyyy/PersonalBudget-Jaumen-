@@ -9,7 +9,7 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 
-public class FilterCheque implements Function {
+public class FilterCheque extends Functions {
     private CategoryRepository categoryRepository;
 
     public FilterCheque(CategoryRepository categoryRepository) {
@@ -79,10 +79,8 @@ public class FilterCheque implements Function {
     @Override
     public FunctionReply preprocess(ChatHistory chatHistory) {
         FunctionReply functionReply = new FunctionReply();
-        functionReply.setText("Введите запрос");
+        functionReply.setText("Введите запрос [(all | название категории)], от [dd.MM.yy] до [dd.MM.yy]");
         return functionReply;
     }
 
-    @Override
-    public void stop(ChatHistory chatHistory) {}
 }

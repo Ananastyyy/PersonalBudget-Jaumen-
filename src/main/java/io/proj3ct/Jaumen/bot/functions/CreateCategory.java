@@ -8,7 +8,7 @@ import io.proj3ct.Jaumen.repositories.UserRepository;
 
 import java.util.List;
 
-public class CreateCategory implements Function {
+public class CreateCategory extends Functions {
     UserRepository userRepository;
     CategoryRepository categoryRepository;
 
@@ -42,7 +42,4 @@ public class CreateCategory implements Function {
         return functionReply;
     }
 
-    @Override
-    public void stop(ChatHistory chatHistory) {
-    }
 }

@@ -6,7 +6,7 @@ import io.proj3ct.Jaumen.repositories.CategoryRepository;
 
 import java.util.List;
 
-public class AllCategory implements Function {
+public class AllCategory extends Functions {
     private CategoryRepository categoryRepository;
 
     public AllCategory(CategoryRepository categoryRepository) {
@@ -35,7 +35,4 @@ public class AllCategory implements Function {
     public FunctionReply preprocess(ChatHistory chatHistory) {
         return doFunction(chatHistory, null);
     }
-
-    @Override
-    public void stop(ChatHistory chatHistory) {}
 }

@@ -20,6 +20,7 @@ public class CommandHandler {
         navigation.put("/allcategory", new Command("Вывести все категории", true, new AllCategory(repositories.getCategoryRepository())));
         navigation.put("/addcheque", new Command("Добавить чек", true, new AddCheque(repositories.getCategoryRepository(), repositories.getUserRepository())));
         navigation.put("/requestcheques", new Command("Показать расходы", true, new FilterCheque(repositories.getCategoryRepository())));
+        navigation.put("/help", new Command("Помощь по боту", false, new Help()));
     }
 
     public Command getCommand(String nameCommand) {

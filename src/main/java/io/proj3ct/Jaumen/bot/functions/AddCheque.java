@@ -11,7 +11,7 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 
-public class AddCheque implements Function{
+public class AddCheque extends Functions{
 
     CategoryRepository categoryRepository;
 
@@ -48,7 +48,7 @@ public class AddCheque implements Function{
 
             categories.get(0).addCheque(newCheque);
             categoryRepository.save(categories.get(0));
-            functionReply.setText("Чек добавлен\nВведите данные нового чека");
+            functionReply.setText("Чек добавлен\nВведите данные нового чека [название категории, сумма расхода, дата(необязательно)");
         }
         return functionReply;
     }
@@ -57,14 +57,10 @@ public class AddCheque implements Function{
     @Override
     public FunctionReply preprocess(ChatHistory chatHistory) {
         FunctionReply functionReply = new FunctionReply();
-        functionReply.setText("Введите данные чека");
+        functionReply.setText("Введите данные чека [название категории, сумма расхода, дата(необязательно)");
         return functionReply;
     }
 
-    @Override
-    public void stop(ChatHistory chatHistory) {
-
-    }
 
     public Arguments parser(String text) throws ParseException {
         ArrayList<String> parsedMessage = new ArrayList<>(Arrays.asList(text.split(" ")));

@@ -6,7 +6,7 @@ import io.proj3ct.Jaumen.repositories.UserRepository;
 
 import java.util.Optional;
 
-public class LogIn implements Function {
+public class LogIn extends Functions {
 
     UserRepository repository;
 
