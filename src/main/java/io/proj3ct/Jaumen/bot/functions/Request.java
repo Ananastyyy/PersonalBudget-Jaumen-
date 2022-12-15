@@ -6,7 +6,9 @@ import java.util.Date;
 public class Request {
     private boolean allCategoriesRequest = false;
     private String category = null;
-    private LocalDate date = null;
+    private DateRange dateRange = null;
+
+    private boolean error = false;
 
     public boolean isAllCategoriesRequest() {
         return allCategoriesRequest;
@@ -24,11 +26,19 @@ public class Request {
         this.category = category;
     }
 
-    public LocalDate getDate() {
-        return date;
+    public DateRange getDateRange() {
+        return dateRange;
     }
 
-    public void setDate(LocalDate date) {
-        this.date = date;
+    public void setDateRange(DateRange dateRange) {
+        this.dateRange = dateRange;
+    }
+
+    public void setError(boolean error) {
+        this.error = error;
+    }
+
+    public boolean hasError() {
+        return error;
     }
 }
