@@ -5,9 +5,12 @@ import io.proj3ct.Jaumen.models.ChatHistory;
 import io.proj3ct.Jaumen.models.Cheque;
 import io.proj3ct.Jaumen.repositories.CategoryRepository;
 
+import java.time.DateTimeException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class FilterCheque extends Functions {
     private CategoryRepository categoryRepository;
@@ -23,6 +26,10 @@ public class FilterCheque extends Functions {
         Request request = parser(text);
         List<Cheque> cheques = new ArrayList<>();
 
+        if (request.hasError()) {
+            functionReply.setText("Некорректный запрос. Попробуйте снова");
+            return functionReply;
+        }
         if (request.isAllCategoriesRequest()) {
             List<Category> categories = categoryRepository.findAllByUserLogin(chatHistory.getLogin());
 
@@ -30,28 +37,27 @@ public class FilterCheque extends Functions {
                 cheques.addAll(category.getChequeList());
             }
         } else {
-            if (request.getCategory() == null) {
-                functionReply.setText("Некорректный запрос. Попробуйте снова");
+            List<Category> category = categoryRepository.findAllByNameCategoryAndUserLogin(request.getCategory(), chatHistory.getLogin());
+
+            if (category.isEmpty()) {
+                functionReply.setText("Категория \"%s\" не существует".formatted(request.getCategory()));
                 return functionReply;
             } else {
-                List<Category> category = categoryRepository.findAllByNameCategoryAndUserLogin(request.getCategory(), chatHistory.getLogin());
-
-                if (category.isEmpty()) {
-                    functionReply.setText("Категория \"%s\" не существует".formatted(request.getCategory()));
-                    return functionReply;
-                } else {
-                    cheques = category.get(0).getChequeList();
-                }
+                cheques = category.get(0).getChequeList();
             }
         }
         if (cheques.isEmpty()) {
-            functionReply.setText("Список чеков пуст");
+            functionReply.setText("В категории \"{}\" нет чеков");
         } else {
             StringBuilder outText = new StringBuilder();
 
             for (Cheque cheque : cheques) {
-                if (request.getDate() == null || cheque.getDate().toString().equals(request.getDate().toString()))
+                if (request.getDateRange() == null ||
+                        dateInRange(request.getDateRange().start(), request.getDateRange().end(), cheque.getDate()))
                     outText.append(cheque.toString()).append("\n");
+            }
+            if (outText.isEmpty()) {
+                outText.append("По вашему запросу ничего не найдено");
             }
             functionReply.setText(outText.toString());
         }
@@ -59,18 +65,37 @@ public class FilterCheque extends Functions {
     }
 
     public Request parser(String text) {
-        String[] args = text.split("\s");
+        Pattern pattern = Pattern.compile("(.*?)\\s*(\\d\\d\\.\\d\\d\\.\\d\\d)?\\s*(\\d\\d\\.\\d\\d\\.\\d\\d)?$");
+        Matcher matcher = pattern.matcher(text);
         Request request = new Request();
 
-        for (String arg : args) {
-            if (arg.equals("-a")) {
+        if (matcher.find()) {
+            String category = matcher.group(1);
+            String date1 = matcher.group(2);
+            String date2 = matcher.group(3);
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yy");
+
+            if (!category.isEmpty() && !category.equals("all")) {
+                request.setCategory(category);
+            } else {
                 request.setAllCategoriesRequest(true);
-            } else if (!request.isAllCategoriesRequest() && request.getCategory() == null) {
-                request.setCategory(arg);
-            } else if (request.getDate() == null) {
-                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yy");
-                formatter = formatter.withLocale(Locale.ENGLISH);
-                request.setDate(LocalDate.parse(arg, formatter));
+            }
+            try {
+                if (date1 != null) {
+                    if (date2 != null) {
+                        LocalDate d1 = LocalDate.parse(date1, formatter);
+                        LocalDate d2 = LocalDate.parse(date2, formatter);
+                        if (d1.isBefore(d2))
+                            request.setDateRange(new DateRange(d1, d2));
+                        else
+                            request.setDateRange(new DateRange(d2, d1));
+                    } else {
+                        LocalDate d = LocalDate.parse(date1, formatter);
+                        request.setDateRange(new DateRange(d, d));
+                    }
+                }
+            } catch (DateTimeException e) {
+                request.setError(true);
             }
         }
         return request;
@@ -83,4 +108,10 @@ public class FilterCheque extends Functions {
         return functionReply;
     }
 
+    @Override
+    public void stop(ChatHistory chatHistory) {}
+
+    public boolean dateInRange(LocalDate start, LocalDate end, LocalDate suspect) {
+        return suspect.equals(start) || suspect.equals(end) || (suspect.isBefore(end) && suspect.isAfter(start));
+    }
 }
