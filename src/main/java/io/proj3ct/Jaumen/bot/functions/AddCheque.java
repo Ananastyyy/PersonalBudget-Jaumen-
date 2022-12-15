@@ -1,5 +1,6 @@
 package io.proj3ct.Jaumen.bot.functions;
 
+import com.sun.jdi.event.ExceptionEvent;
 import io.proj3ct.Jaumen.models.Category;
 import io.proj3ct.Jaumen.models.ChatHistory;
 import io.proj3ct.Jaumen.models.Cheque;
@@ -10,6 +11,8 @@ import java.text.ParseException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class AddCheque extends Functions{
 
@@ -28,18 +31,23 @@ public class AddCheque extends Functions{
     @Override
     public FunctionReply doFunction(ChatHistory chatHistory, String text) {
         FunctionReply functionReply = new FunctionReply();
+        Arguments arguments;
 
-        Arguments arguments = null;
         try {
             arguments = parser(text);
-        } catch (ParseException e) {
-            throw new RuntimeException(e);
+        } catch (Exception e) {
+            functionReply.setText("""
+                    Ошибка добавления чека!
+                    Используйте:
+                    (название категории) (сумма) [dd.MM.yy]
+                    """);
+            return functionReply;
         }
 
         List<Category> categories = categoryRepository.findAllByNameCategoryAndUserLogin(arguments.category, chatHistory.getLogin());
 
         if (categories.isEmpty()) {
-            functionReply.setText("Такой категории не существует");
+            functionReply.setText(String.format("Категория \"%s\" не существует", arguments.category));
         } else {
             Cheque newCheque = new Cheque();
             newCheque.setCategory(categories.get(0));
@@ -48,7 +56,10 @@ public class AddCheque extends Functions{
 
             categories.get(0).addCheque(newCheque);
             categoryRepository.save(categories.get(0));
-            functionReply.setText("Чек добавлен\nВведите данные нового чека [название категории, сумма расхода, дата(необязательно)");
+            functionReply.setText("""
+                    Чек добавлен
+                    Введите данные нового чека:
+                    (название категории) (сумма) [dd.MM.yy]""");
         }
         return functionReply;
     }
@@ -57,24 +68,36 @@ public class AddCheque extends Functions{
     @Override
     public FunctionReply preprocess(ChatHistory chatHistory) {
         FunctionReply functionReply = new FunctionReply();
-        functionReply.setText("Введите данные чека [название категории, сумма расхода, дата(необязательно)");
+        functionReply.setText("""
+                Введите данные чека:
+                (название категории) (сумма) [dd.MM.yy]
+                """);
         return functionReply;
     }
 
 
-    public Arguments parser(String text) throws ParseException {
-        ArrayList<String> parsedMessage = new ArrayList<>(Arrays.asList(text.split(" ")));
-        String category = parsedMessage.get(0);
-        Long cost = Long.valueOf(parsedMessage.get(1));
+    public Arguments parser(String text) throws Exception {
+        Pattern pattern = Pattern.compile("(.+?)\\s+(\\d+)\\s*(\\d\\d\\.\\d\\d\\.\\d\\d)?$");
+        Matcher matcher = pattern.matcher(text);
 
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yy");
-        formatter = formatter.withLocale(Locale.ENGLISH);
-        LocalDate date;
-        try {
-            date = LocalDate.parse(parsedMessage.get(2), formatter);
-        } catch (IndexOutOfBoundsException e){
-            date = LocalDate.now();
+        if (matcher.find()) {
+                String category = matcher.group(1);
+                Long cost = Long.valueOf(matcher.group(2));
+                LocalDate date;
+
+                if (matcher.group(3) != null) {
+                    try {
+                        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yy");
+                        date = LocalDate.parse(matcher.group(3), formatter);
+                    } catch (Exception e) {
+                        throw new Exception();
+                    }
+                } else {
+                    date = LocalDate.now();
+                }
+            return new Arguments(category, cost, date);
+        } else {
+            throw new Exception();
         }
-        return new Arguments(category, cost, date);
     }
 }
