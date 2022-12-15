@@ -1,13 +1,10 @@
 package io.proj3ct.Jaumen.bot.functions;
 
-import com.sun.jdi.event.ExceptionEvent;
 import io.proj3ct.Jaumen.models.Category;
 import io.proj3ct.Jaumen.models.ChatHistory;
 import io.proj3ct.Jaumen.models.Cheque;
 import io.proj3ct.Jaumen.repositories.CategoryRepository;
 import io.proj3ct.Jaumen.repositories.UserRepository;
-
-import java.text.ParseException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
@@ -15,9 +12,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class AddCheque extends Functions{
-
     CategoryRepository categoryRepository;
-
     UserRepository userRepository;
 
     public AddCheque(CategoryRepository categoryRepository, UserRepository userRepository) {
@@ -25,7 +20,7 @@ public class AddCheque extends Functions{
         this.userRepository = userRepository;
     }
 
-    public record Arguments(String category, Long cost, LocalDate date){
+    public record Arguments(String category, Float cost, LocalDate date){
     }
 
     @Override
@@ -39,7 +34,7 @@ public class AddCheque extends Functions{
             functionReply.setText("""
                     Ошибка добавления чека!
                     Используйте:
-                    (название категории) (сумма) [dd.MM.yy]
+                    (название категории) (сумма) [dd.mm.yy]
                     """);
             return functionReply;
         }
@@ -57,44 +52,43 @@ public class AddCheque extends Functions{
             categories.get(0).addCheque(newCheque);
             categoryRepository.save(categories.get(0));
             functionReply.setText("""
-                    Чек добавлен
+                    Чек добавлен!
+                    
                     Введите данные нового чека:
-                    (название категории) (сумма) [dd.MM.yy]""");
+                    (название категории) (сумма) [dd.mm.yy]""");
         }
         return functionReply;
     }
-
 
     @Override
     public FunctionReply preprocess(ChatHistory chatHistory) {
         FunctionReply functionReply = new FunctionReply();
         functionReply.setText("""
                 Введите данные чека:
-                (название категории) (сумма) [dd.MM.yy]
+                (название категории) (сумма) [dd.mm.yy]
                 """);
         return functionReply;
     }
 
-
     public Arguments parser(String text) throws Exception {
-        Pattern pattern = Pattern.compile("(.+?)\\s+(\\d+)\\s*(\\d\\d\\.\\d\\d\\.\\d\\d)?$");
+        Pattern pattern = Pattern.compile("(.+?)\\s+(\\d+?\\.?\\d*)\\s*(\\d\\d\\.\\d\\d\\.\\d\\d)?$");
         Matcher matcher = pattern.matcher(text);
 
         if (matcher.find()) {
-                String category = matcher.group(1);
-                Long cost = Long.valueOf(matcher.group(2));
-                LocalDate date;
+            String category = matcher.group(1);
+            Float cost = Float.valueOf(matcher.group(2));
+            LocalDate date;
 
-                if (matcher.group(3) != null) {
-                    try {
-                        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yy");
-                        date = LocalDate.parse(matcher.group(3), formatter);
-                    } catch (Exception e) {
-                        throw new Exception();
-                    }
-                } else {
-                    date = LocalDate.now();
+            if (matcher.group(3) != null) {
+                try {
+                    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yy");
+                    date = LocalDate.parse(matcher.group(3), formatter);
+                } catch (Exception e) {
+                    throw new Exception();
                 }
+            } else {
+                date = LocalDate.now();
+            }
             return new Arguments(category, cost, date);
         } else {
             throw new Exception();

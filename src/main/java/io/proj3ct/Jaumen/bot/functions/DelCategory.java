@@ -5,7 +5,6 @@ import io.proj3ct.Jaumen.models.ChatHistory;
 import io.proj3ct.Jaumen.models.User;
 import io.proj3ct.Jaumen.repositories.CategoryRepository;
 import io.proj3ct.Jaumen.repositories.UserRepository;
-
 import java.util.List;
 
 public class DelCategory extends Functions {
@@ -28,6 +27,7 @@ public class DelCategory extends Functions {
             User user = category.getUser();
             user.removeCategory(category);
             userRepository.save(user);
+            categoryRepository.delete(category);
             functionReply.setText(String.format("Категория \"%s\" удалена.\nВведите название категории, которую хотите удалить.", text));
         }
         return functionReply;
