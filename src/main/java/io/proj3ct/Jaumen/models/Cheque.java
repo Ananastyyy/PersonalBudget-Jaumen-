@@ -8,7 +8,7 @@ public class Cheque {
     @Id
     @GeneratedValue
     private Long id;
-    private Long cost;
+    private Float cost;
     private LocalDate date;
 
     @ManyToOne
@@ -24,11 +24,11 @@ public class Cheque {
         this.id = id;
     }
 
-    public Long getCost() {
+    public Float getCost() {
         return cost;
     }
 
-    public void setCost(Long cost) {
+    public void setCost(Float cost) {
         this.cost = cost;
     }
 
