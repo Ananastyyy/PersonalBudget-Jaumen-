@@ -5,7 +5,6 @@ import io.proj3ct.Jaumen.models.ChatHistory;
 import io.proj3ct.Jaumen.models.User;
 import io.proj3ct.Jaumen.repositories.CategoryRepository;
 import io.proj3ct.Jaumen.repositories.UserRepository;
-
 import java.util.List;
 
 public class CreateCategory extends Functions {
