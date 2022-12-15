@@ -47,7 +47,11 @@ public class FilterCheque extends Functions {
             }
         }
         if (cheques.isEmpty()) {
-            functionReply.setText("В категории \"{}\" нет чеков");
+            if (request.isAllCategoriesRequest()) {
+                functionReply.setText("Чеки еще не добавлены");
+            } else {
+                functionReply.setText("В категории \"%s\" нет чеков".formatted(request.getCategory()));
+            }
         } else {
             StringBuilder outText = new StringBuilder();
 
@@ -104,7 +108,8 @@ public class FilterCheque extends Functions {
     @Override
     public FunctionReply preprocess(ChatHistory chatHistory) {
         FunctionReply functionReply = new FunctionReply();
-        functionReply.setText("Введите запрос [(all | название категории)], от [dd.MM.yy] до [dd.MM.yy]");
+        functionReply.setText("Введите запрос:\n" +
+                "(all | название категории) [dd.MM.yy] [dd.MM.yy]");
         return functionReply;
     }
 
