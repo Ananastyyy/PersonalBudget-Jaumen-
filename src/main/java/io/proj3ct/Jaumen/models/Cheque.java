@@ -49,7 +49,7 @@ public class Cheque {
     }
 
     public String toString() {
-        return "%s: %s руб.    %d.%d.%d".formatted(category.getNameCategory(), cost,
+        return "%s:    %s руб.    %d.%d.%d".formatted(category.getNameCategory(), cost,
                 date.getDayOfMonth(), date.getMonth().getValue(), date.getYear());
     }
 
