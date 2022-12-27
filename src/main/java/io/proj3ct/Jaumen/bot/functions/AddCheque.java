@@ -12,6 +12,8 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class AddCheque extends Functions{
+
+    final String template = "\nВведите данные нового чека:\n(название категории) (сумма) [dd.mm.yy]";
     CategoryRepository categoryRepository;
     UserRepository userRepository;
 
@@ -31,11 +33,7 @@ public class AddCheque extends Functions{
         try {
             arguments = parser(text);
         } catch (Exception e) {
-            functionReply.setText("""
-                    Ошибка добавления чека!
-                    Используйте:
-                    (название категории) (сумма) [dd.mm.yy]
-                    """);
+            functionReply.setText("Ошибка добавления чека!" + template);
             return functionReply;
         }
 
@@ -51,11 +49,7 @@ public class AddCheque extends Functions{
 
             categories.get(0).addCheque(newCheque);
             categoryRepository.save(categories.get(0));
-            functionReply.setText("""
-                    Чек добавлен!
-                    
-                    Введите данные нового чека:
-                    (название категории) (сумма) [dd.mm.yy]""");
+            functionReply.setText("Чек добавлен!"+template);
         }
         return functionReply;
     }
@@ -63,10 +57,7 @@ public class AddCheque extends Functions{
     @Override
     public FunctionReply preprocess(ChatHistory chatHistory) {
         FunctionReply functionReply = new FunctionReply();
-        functionReply.setText("""
-                Введите данные чека:
-                (название категории) (сумма) [dd.mm.yy]
-                """);
+        functionReply.setText(template);
         return functionReply;
     }
 

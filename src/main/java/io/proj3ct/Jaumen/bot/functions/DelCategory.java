@@ -8,6 +8,8 @@ import io.proj3ct.Jaumen.repositories.UserRepository;
 import java.util.List;
 
 public class DelCategory extends Functions {
+
+    final String template = "Введите название новой категории";
     UserRepository userRepository;
     CategoryRepository categoryRepository;
 
@@ -28,7 +30,7 @@ public class DelCategory extends Functions {
             user.removeCategory(category);
             userRepository.save(user);
             categoryRepository.delete(category);
-            functionReply.setText(String.format("Категория \"%s\" удалена.\nВведите название категории, которую хотите удалить.", text));
+            functionReply.setText(String.format("Категория \"%s\" удалена.\n" + template, text));
         }
         return functionReply;
     }
@@ -36,7 +38,7 @@ public class DelCategory extends Functions {
     @Override
     public FunctionReply preprocess(ChatHistory chatHistory) {
         FunctionReply functionReply = new FunctionReply();
-        functionReply.setText("Введите название категории, которую хотите удалить.");
+        functionReply.setText(template);
         return functionReply;
     }
 }

@@ -6,7 +6,7 @@ import org.springframework.context.annotation.PropertySource;
 
 @Configuration
 @Data
-@PropertySource("example_application.properties")
+@PropertySource("application.properties")
 public class TelegramBotConfig {
     @Value("${bot.name}")
     String botName;

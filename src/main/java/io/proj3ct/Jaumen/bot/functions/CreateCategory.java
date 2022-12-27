@@ -8,6 +8,8 @@ import io.proj3ct.Jaumen.repositories.UserRepository;
 import java.util.List;
 
 public class CreateCategory extends Functions {
+
+    final String template = "Введите название новой категории";
     UserRepository userRepository;
     CategoryRepository categoryRepository;
 
@@ -29,7 +31,7 @@ public class CreateCategory extends Functions {
             new_category.setNameCategory(text);
             user.addCategory(new_category);
             userRepository.save(user);
-            functionReply.setText("Категория добавлена!\nВведите название новой категории");
+            functionReply.setText("Категория добавлена!\n"+template);
         }
         return functionReply;
     }
@@ -37,7 +39,7 @@ public class CreateCategory extends Functions {
     @Override
     public FunctionReply preprocess(ChatHistory chatHistory) {
         FunctionReply functionReply = new FunctionReply();
-        functionReply.setText("Введите название новой категории");
+        functionReply.setText(template);
         return functionReply;
     }
 
